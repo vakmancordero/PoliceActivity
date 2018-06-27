@@ -1,7 +1,6 @@
 package com.bsdenterprise.qbits.policeactivity.service;
 
 import com.bsdenterprise.qbits.policeactivity.common.service.BaseService;
-import com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.ActivityMessages;
 import com.bsdenterprise.qbits.policeactivity.dto.OutputMessage;
 import com.bsdenterprise.qbits.policeactivity.model.MessageEntity;

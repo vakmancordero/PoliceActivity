@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/activity/messages")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -18,15 +20,15 @@ public class ActivityMessagesController {
         return ResponseEntity.ok(activityMessagesService.allActivityMessages());
     }
 
-    @GetMapping("/{activityId}")
+    @GetMapping("/find/{activityId}")
     public ResponseEntity findActivityMessagesByActivityId(@PathVariable("activityId") String activityId) {
         return ResponseEntity.ok(activityMessagesService.findActivityMessagesByActivityId(activityId));
     }
 
     @GetMapping("/find")
-    public ResponseEntity findActivityMessages(@RequestParam("activityId") String activityId,
-                                               @RequestParam("status") String status,
-                                               @RequestParam("environment") String environment) {
+    public ResponseEntity findActivityMessages(@RequestParam(value = "activityId", required = false) String activityId,
+                                               @RequestParam(value = "status", required = false) String status,
+                                               @RequestParam(value = "environment", required = false) String environment) {
         return ResponseEntity.ok(activityMessagesService.findActivityMessages(activityId, status, environment));
     }
 

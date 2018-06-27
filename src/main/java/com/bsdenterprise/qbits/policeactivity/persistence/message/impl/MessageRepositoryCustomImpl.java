@@ -36,7 +36,12 @@ public class MessageRepositoryCustomImpl implements MessageRepositoryCustom {
 
     @Override
     public Optional<ActivityDTO> findActivityById(String activityId) {
-        TypedQuery<ActivityDTO> query = entityManager.createQuery("SELECT m.activityId, m.environment FROM MessageEntity m WHERE m.activityId = :activityId", ActivityDTO.class);
+
+        TypedQuery<ActivityDTO> query = entityManager.createQuery(
+                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO(m.activityId, m.environment) from MessageEntity m where m.activityId = :activityId",
+                ActivityDTO.class
+        );
+
         return Optional.of(query.setParameter("activityId", activityId).getSingleResult());
     }
 
