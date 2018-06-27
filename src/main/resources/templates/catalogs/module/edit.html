@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/main}">
+<head>
+    <title>[[#{module.edit.title}]]</title>
+</head>
+<div layout:fragment="content">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Edit Module</li>
+    </ol>
+
+    <div id="page_content">
+        <div class="row">
+            <div class="col-md-12 order-md-1">
+                <h4 class="mb-3">[[#{module.edit.title}]]</h4>
+                <form th:object="${moduleInDTO}" th:method="put" class="needs-validation" novalidate>
+
+                    <input type="hidden" name="id" th:value="${moduleId}" />
+
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label for="name">[[#{module.name}]]</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" required/>
+                        <div class="invalid-feedback">
+                            [[#{module.name.required}]]
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="description">[[#{module.description}]]</label>
+                        <input type="text" class="form-control" id="description" th:field="*{description}" required/>
+                        <div class="invalid-feedback">
+                            [[#{module.description.required}]]
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
+
+                    <!-- Buttons -->
+                    <div class="row">
+                        <div class="col-6 col-md-4">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">[[#{button.edit}]]</button>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <a class="btn btn-default btn-lg" href="/ui/catalogs/modules/" role="button">[[#{button.back-to-list}]]</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+
+    <script type="text/javascript">
+
+        (function () {
+            'use strict';
+
+            window.addEventListener('load', function () {
+
+                var forms = document.getElementsByClassName('needs-validation');
+
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+
+            }, false);
+
+        })();
+
+    </script>
+</th:block>
+
+</html>
