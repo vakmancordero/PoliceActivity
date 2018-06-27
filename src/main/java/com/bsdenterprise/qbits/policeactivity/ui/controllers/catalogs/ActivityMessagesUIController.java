@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/ui/catalogs/messages/")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ActivityMessagesController {
+public class ActivityMessagesUIController {
 
     @GetMapping
     public String index(Model model) {

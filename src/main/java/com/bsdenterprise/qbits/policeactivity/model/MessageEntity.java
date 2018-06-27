@@ -20,7 +20,7 @@ public class MessageEntity extends BaseEntity {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name="module_id")
+    @JoinColumn(name="module_id", nullable = false)
     private ModuleEntity module;
 
     @Column(nullable = false)
@@ -28,5 +28,8 @@ public class MessageEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String activityId;
+
+    @Column(nullable = false)
+    private String environment;
 
 }

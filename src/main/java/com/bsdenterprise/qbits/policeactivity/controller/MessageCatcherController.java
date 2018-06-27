@@ -42,9 +42,6 @@ public class MessageCatcherController {
 
     }
 
-    @GetMapping("/activity/messages")
-    public ResponseEntity allActivityMessages() {
-        return ResponseEntity.ok(messageCatcherService.allActivityMessages());
-    }
+
 
 }

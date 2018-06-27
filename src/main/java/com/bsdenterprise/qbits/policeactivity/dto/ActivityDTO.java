@@ -3,13 +3,11 @@ package com.bsdenterprise.qbits.policeactivity.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
-public class ActivityMessages {
+public class ActivityDTO {
 
-    private ActivityDTO activity;
-    private List<OutputMessage> messages;
+    private String activityId;
+    private String environment;
 
 }

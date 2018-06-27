@@ -10,6 +10,6 @@ public class InputMessage {
     private String message;
     private Long moduleId;
     private String status;
-    //private String environment;
+    private String environment;
 
 }
