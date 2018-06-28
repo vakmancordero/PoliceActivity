@@ -9,6 +9,7 @@ import com.bsdenterprise.qbits.policeactivity.persistence.message.MessageReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
         return activityMessages;
     }
 
-    public List<ActivityMessages> findActivityMessages(String activityId, String status, String environment) {
+    public List<ActivityMessages> findActivityMessages(String activityId, String status, String environment, Long moduleId) {
 
         Stream<ActivityMessages> stream = this.allActivityMessages().stream();
 
@@ -59,6 +60,8 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
             stream = stream.filter(am -> am.getActivity().getEnvironment().equals(environment));
         if (!StringUtils.isEmpty(status))
             stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getStatus().equals(status)));
+        if (!ObjectUtils.isEmpty(moduleId))
+            stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getModule().getId().equals(moduleId)));
 
         List<ActivityMessages> collect = stream.collect(Collectors.toList());
 

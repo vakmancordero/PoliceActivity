@@ -30,8 +30,9 @@ public class ActivityMessagesController {
     @GetMapping("/find")
     public ResponseEntity findActivityMessages(@RequestParam(value = "activityId", required = false) String activityId,
                                                @RequestParam(value = "status", required = false) String status,
-                                               @RequestParam(value = "environment", required = false) String environment) {
-        return ResponseEntity.ok(activityMessagesService.findActivityMessages(activityId, status, environment));
+                                               @RequestParam(value = "environment", required = false) String environment,
+                                               @RequestParam(value = "module", required = false) Long moduleId) {
+        return ResponseEntity.ok(activityMessagesService.findActivityMessages(activityId, status, environment, moduleId));
     }
 
 }
