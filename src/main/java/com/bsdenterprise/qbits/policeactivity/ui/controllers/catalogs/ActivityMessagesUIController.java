@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/ui/catalogs/messages/")
+@RequestMapping("/ui/activity-messages")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ActivityMessagesUIController {
 

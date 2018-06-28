@@ -1,16 +1,18 @@
 package com.bsdenterprise.qbits.policeactivity.controller;
 
-import com.bsdenterprise.qbits.policeactivity.service.ActivityMessagesService;
-import lombok.RequiredArgsConstructor;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import com.bsdenterprise.qbits.policeactivity.service.ActivityMessagesService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/activity/messages")
+@RequestMapping("/v1/activity/messages")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(value = "activity-messages", description = "Endpoint for activity messages visualization")
 public class ActivityMessagesController {
 
     private final ActivityMessagesService activityMessagesService;

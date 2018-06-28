@@ -6,6 +6,7 @@ import com.bsdenterprise.qbits.policeactivity.dto.module.ModuleInDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.module.ModuleOutDTO;
 import com.bsdenterprise.qbits.policeactivity.service.ModuleService;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/modules")
+@RequestMapping("/v1/catalogs/modules")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(value = "modules", description = "Endpoint for module management")
 public class ModuleController {
 
     private final ModuleService moduleService;

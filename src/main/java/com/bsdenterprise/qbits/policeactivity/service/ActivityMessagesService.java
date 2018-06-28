@@ -1,6 +1,7 @@
 package com.bsdenterprise.qbits.policeactivity.service;
 
 import com.bsdenterprise.qbits.policeactivity.common.service.BaseService;
+import com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.ActivityMessages;
 import com.bsdenterprise.qbits.policeactivity.dto.OutputMessage;
 import com.bsdenterprise.qbits.policeactivity.model.MessageEntity;
@@ -18,6 +19,10 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ActivityMessagesService extends BaseService<MessageRepository, MessageEntity> {
+
+    public List<ActivityDTO> findActivities() {
+        return this.repository.findActivities();
+    }
 
     public List<ActivityMessages> allActivityMessages() {
 
