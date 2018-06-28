@@ -31,7 +31,7 @@ public class ActivityMessagesController {
     public ResponseEntity findActivityMessages(@RequestParam(value = "activityId", required = false) String activityId,
                                                @RequestParam(value = "statusId", required = false) Integer statusId,
                                                @RequestParam(value = "environmentId", required = false) Long environmentId,
-                                               @RequestParam(value = "module", required = false) Long moduleId) {
+                                               @RequestParam(value = "moduleId", required = false) Long moduleId) {
         return ResponseEntity.ok(activityMessagesService.findActivityMessages(activityId, statusId, environmentId, moduleId));
     }
 

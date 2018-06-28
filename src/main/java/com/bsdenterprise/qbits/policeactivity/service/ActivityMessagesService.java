@@ -58,9 +58,15 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
         if (!ObjectUtils.isEmpty(environmentId))
             stream = stream.filter(am -> am.getActivity().getEnvironment().getId().equals(environmentId));
         if (!ObjectUtils.isEmpty(statusId))
-            stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getStatusId().equals(statusId)));
+            stream = stream.filter(am ->  {
+                am.getMessages().removeIf(m -> !m.getStatusId().equals(statusId));
+                return true;
+            });
         if (!ObjectUtils.isEmpty(moduleId))
-            stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getModule().getId().equals(moduleId)));
+            stream = stream.filter(am -> {
+                am.getMessages().removeIf(m -> !m.getModule().getId().equals(moduleId));
+                return true;
+            });
 
         List<ActivityMessages> activityMessages = stream.collect(Collectors.toList());
 
