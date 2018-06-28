@@ -1,5 +1,6 @@
-package com.bsdenterprise.qbits.policeactivity.dto;
+package com.bsdenterprise.qbits.policeactivity.dto.activity;
 
+import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

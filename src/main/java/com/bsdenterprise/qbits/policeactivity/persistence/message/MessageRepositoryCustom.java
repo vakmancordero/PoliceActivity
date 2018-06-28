@@ -1,6 +1,6 @@
 package com.bsdenterprise.qbits.policeactivity.persistence.message;
 
-import com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO;
+import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO;
 import com.bsdenterprise.qbits.policeactivity.model.MessageEntity;
 
 import java.util.List;

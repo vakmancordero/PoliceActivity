@@ -1,6 +1,6 @@
 package com.bsdenterprise.qbits.policeactivity.persistence.message.impl;
 
-import com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO;
+import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO;
 import com.bsdenterprise.qbits.policeactivity.model.MessageEntity;
 import com.bsdenterprise.qbits.policeactivity.persistence.message.MessageRepositoryCustom;
 
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,7 +26,7 @@ public class MessageRepositoryCustomImpl implements MessageRepositoryCustom {
     public List<ActivityDTO> findActivities() {
 
         TypedQuery<ActivityDTO> typedQuery = entityManager.createQuery(
-                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO(m.activityId, m.environment) from MessageEntity m",
+                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.id, m.environment.name) from MessageEntity m",
                 ActivityDTO.class
         );
 
@@ -38,7 +37,7 @@ public class MessageRepositoryCustomImpl implements MessageRepositoryCustom {
     public Optional<ActivityDTO> findActivityById(String activityId) {
 
         TypedQuery<ActivityDTO> query = entityManager.createQuery(
-                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO(m.activityId, m.environment) from MessageEntity m where m.activityId = :activityId",
+                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.name) from MessageEntity m where m.activityId = :activityId",
                 ActivityDTO.class
         );
 

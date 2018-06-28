@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/v1/catalogs/modules")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Api(value = "modules", description = "Endpoint for module management")
+@Api(value = "module", description = "Endpoint for module management")
 public class ModuleController {
 
     private final ModuleService moduleService;
@@ -71,7 +71,7 @@ public class ModuleController {
         } catch (ValidationException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Error creating the module, " + ex.getMessage());
+            return ResponseEntity.badRequest().body("Error updating the module, " + ex.getMessage());
         }
 
     }

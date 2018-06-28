@@ -23,13 +23,14 @@ public class MessageEntity extends BaseEntity {
     @JoinColumn(name="module_id", nullable = false)
     private ModuleEntity module;
 
+    @ManyToOne
+    @JoinColumn(name="environment_id", nullable = false)
+    private EnvironmentEntity environment;
+
     @Column(nullable = false)
-    private String status;
+    private Long statusId;
 
     @Column(nullable = false)
     private String activityId;
-
-    @Column(nullable = false)
-    private String environment;
 
 }

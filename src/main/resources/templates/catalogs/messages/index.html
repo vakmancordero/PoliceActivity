@@ -99,9 +99,9 @@
                     "dataSrc": "",
                     "data": function (data) {
                         data.activityId = $('#activityId').val();
-                        data.status = $('#status').val();
-                        data.environment = $('#environment').val();
-                        data.module = $('#module').val();
+                        data.statusId = $('#status').val();
+                        data.environmentId = $('#environment').val();
+                        data.moduleId = $('#module').val();
                     }
                 },
                 "columns": [
@@ -113,9 +113,14 @@
                         "defaultContent": '<button style="font-size: 16px;" class="btn btn-primary"><span>Show detail</span> <i class="fas fa-plus-circle"></i></button>'
                     },
                     {"data": "activity.activityId"},
-                    {"data": "activity.environment"}
+                    {
+                        "data": "activity.environment",
+                        "render": function (data, type, row) {
+                            return '<span style="color: rgb(30, 149, 232); font-weight: bold;">' + data.id + ' - ' + data.name + '</span>';
+                        }
+                    }
                 ]
-            } );
+            });
 
             $('#activitiesTable tbody').on('click', 'td.details-control', function () {
 
@@ -152,12 +157,17 @@
                         columns: [
                             {data: "id"},
                             {data: "message"},
-                            {data: "module.name"},
+                            {
+                                data: "module",
+                                "render": function (data, type, row) {
+                                    return '<span style="color: rgb(30, 149, 232); font-weight: bold;">' + data.id + ' - ' + data.name + '</span>';
+                                }
+                            },
                             {
                                 data: "status",
                                 "render": function (data, type, row) {
 
-                                    if (data === 'success') {
+                                    if (data === 'SUCCESS') {
                                         return '<span style="color: rgb(71, 147, 66); font-weight: bold;">' + data + '</span>';
                                     } else {
                                         return '<span style="color: rgb(149, 32, 32); font-weight: bold;">' + data + '</span>';

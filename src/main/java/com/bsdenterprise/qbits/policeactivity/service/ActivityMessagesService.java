@@ -1,9 +1,9 @@
 package com.bsdenterprise.qbits.policeactivity.service;
 
 import com.bsdenterprise.qbits.policeactivity.common.service.BaseService;
-import com.bsdenterprise.qbits.policeactivity.dto.ActivityDTO;
-import com.bsdenterprise.qbits.policeactivity.dto.ActivityMessages;
-import com.bsdenterprise.qbits.policeactivity.dto.OutputMessage;
+import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityMessages;
+import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessage;
+import com.bsdenterprise.qbits.policeactivity.enums.Status;
 import com.bsdenterprise.qbits.policeactivity.model.MessageEntity;
 import com.bsdenterprise.qbits.policeactivity.persistence.message.MessageRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +21,17 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ActivityMessagesService extends BaseService<MessageRepository, MessageEntity> {
 
-    public List<ActivityDTO> findActivities() {
-        return this.repository.findActivities();
-    }
-
     public List<ActivityMessages> allActivityMessages() {
 
         List<ActivityMessages> activityMessages = new ArrayList<>();
 
-        repository.findActivities().forEach(activity -> activityMessages.add(
-                new ActivityMessages(activity, convertUtils.convert(
-                        repository.findMessageDetail(activity.getActivityId()), OutputMessage.class)
-                )));
+        repository.findActivities().forEach(activity -> {
+            ActivityMessages am = new ActivityMessages(activity, convertUtils.convert(
+                    repository.findMessageDetail(activity.getActivityId()), OutputMessage.class));
+
+            am.getMessages().forEach(m -> Status.findStatusById(m.getStatusId()).ifPresent(st -> m.setStatus(st.name())));
+            activityMessages.add(am);
+        });
 
         return activityMessages;
     }
@@ -50,22 +49,22 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
         return activityMessages;
     }
 
-    public List<ActivityMessages> findActivityMessages(String activityId, String status, String environment, Long moduleId) {
+    public List<ActivityMessages> findActivityMessages(String activityId, Integer statusId, Long environmentId, Long moduleId) {
 
         Stream<ActivityMessages> stream = this.allActivityMessages().stream();
 
         if (!StringUtils.isEmpty(activityId))
             stream = stream.filter(am -> am.getActivity().getActivityId().equals(activityId));
-        if (!StringUtils.isEmpty(environment))
-            stream = stream.filter(am -> am.getActivity().getEnvironment().equals(environment));
-        if (!StringUtils.isEmpty(status))
-            stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getStatus().equals(status)));
+        if (!ObjectUtils.isEmpty(environmentId))
+            stream = stream.filter(am -> am.getActivity().getEnvironment().getId().equals(environmentId));
+        if (!ObjectUtils.isEmpty(statusId))
+            stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getStatusId().equals(statusId)));
         if (!ObjectUtils.isEmpty(moduleId))
             stream = stream.filter(am -> am.getMessages().removeIf(m -> !m.getModule().getId().equals(moduleId)));
 
-        List<ActivityMessages> collect = stream.collect(Collectors.toList());
+        List<ActivityMessages> activityMessages = stream.collect(Collectors.toList());
 
-        return collect;
+        return activityMessages;
     }
 
 }

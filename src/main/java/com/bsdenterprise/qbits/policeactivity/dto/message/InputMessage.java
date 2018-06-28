@@ -1,5 +1,6 @@
-package com.bsdenterprise.qbits.policeactivity.dto;
+package com.bsdenterprise.qbits.policeactivity.dto.message;
 
+import com.bsdenterprise.qbits.policeactivity.dto.environment.EnvironmentOutDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.module.ModuleOutDTO;
 import lombok.Data;
 
@@ -9,9 +10,8 @@ public class InputMessage {
     private String activityId;
 
     private String message;
-    private Long moduleId;
     private ModuleOutDTO module;
-    private String status;
-    private String environment;
+    private Integer statusId;
+    private EnvironmentOutDTO environment;
 
 }
