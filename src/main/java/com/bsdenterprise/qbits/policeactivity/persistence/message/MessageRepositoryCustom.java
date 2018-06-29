@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface MessageRepositoryCustom {
 
     List<ActivityDTO> findActivities();
+    List<ActivityDTO> findActivitiesByActivityIdContaining(String activityId);
     Optional<ActivityDTO> findActivityById(String activityId);
+
     List<MessageEntity> findMessageDetail(String activityId);
-
-
 
 }

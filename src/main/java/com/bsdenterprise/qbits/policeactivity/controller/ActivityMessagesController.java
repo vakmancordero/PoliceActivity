@@ -22,6 +22,11 @@ public class ActivityMessagesController {
         return ResponseEntity.ok(activityMessagesService.allActivityMessages());
     }
 
+    @GetMapping("/find/suggestions")
+    public ResponseEntity findActivities(@RequestParam("activityId") String activityId) {
+        return ResponseEntity.ok(activityMessagesService.findActivitiesByActivityIdContaining(activityId));
+    }
+
     @GetMapping("/find/{activityId}")
     public ResponseEntity findActivityMessagesByActivityId(@PathVariable("activityId") String activityId) {
         return ResponseEntity.ok(activityMessagesService.findActivityMessagesByActivityId(activityId));

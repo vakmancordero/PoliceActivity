@@ -9,12 +9,30 @@ import com.bsdenterprise.qbits.policeactivity.persistence.module.ModuleRepositor
 
 import lombok.RequiredArgsConstructor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ModuleService extends BaseService<ModuleRepository, ModuleEntity> {
+
+    public List<ModuleOutDTO> findByQueryContaining(String query) {
+
+        List<ModuleOutDTO> moduleList = new ArrayList<>();
+
+        if (StringUtils.isNumeric(query))
+            this.repository.findById(Long.parseLong(query)).ifPresent(
+                    m -> moduleList.add(convertUtils.convert(m, ModuleOutDTO.class)));
+        else
+            moduleList.addAll(convertUtils.convert(this.repository.findByNameContaining(query), ModuleOutDTO.class));
+
+        return moduleList;
+    }
 
     public ModuleOutDTO createModule(ModuleInDTO moduleInDTO) throws Exception {
 

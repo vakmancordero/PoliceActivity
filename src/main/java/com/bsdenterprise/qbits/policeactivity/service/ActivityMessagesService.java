@@ -1,6 +1,7 @@
 package com.bsdenterprise.qbits.policeactivity.service;
 
 import com.bsdenterprise.qbits.policeactivity.common.service.BaseService;
+import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityMessages;
 import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessage;
 import com.bsdenterprise.qbits.policeactivity.enums.Status;
@@ -34,6 +35,10 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
         });
 
         return activityMessages;
+    }
+
+    public List<ActivityDTO> findActivitiesByActivityIdContaining(String activityId) {
+        return repository.findActivitiesByActivityIdContaining(activityId);
     }
 
     public List<ActivityMessages> findActivityMessagesByActivityId(String activityId) {

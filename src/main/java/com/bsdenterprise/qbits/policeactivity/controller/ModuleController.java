@@ -31,6 +31,11 @@ public class ModuleController {
         return ResponseEntity.ok(this.moduleService.findAll(ModuleOutDTO.class));
     }
 
+    @GetMapping("/find")
+    public @ResponseBody ResponseEntity<List<ModuleOutDTO>> findByNameContaining(@RequestParam("query") String query) {
+        return ResponseEntity.ok(this.moduleService.findByQueryContaining(query));
+    }
+
     @GetMapping("/{id}")
     public @ResponseBody ResponseEntity findById(@PathVariable("id") long id) {
 

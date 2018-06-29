@@ -26,7 +26,8 @@ public class MessageRepositoryCustomImpl implements MessageRepositoryCustom {
     public List<ActivityDTO> findActivities() {
 
         TypedQuery<ActivityDTO> typedQuery = entityManager.createQuery(
-                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.id, m.environment.name) from MessageEntity m",
+                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.id, m.environment.name) " +
+                        "from MessageEntity m",
                 ActivityDTO.class
         );
 
@@ -34,10 +35,23 @@ public class MessageRepositoryCustomImpl implements MessageRepositoryCustom {
     }
 
     @Override
+    public List<ActivityDTO> findActivitiesByActivityIdContaining(String activityId) {
+
+        TypedQuery<ActivityDTO> typedQuery = entityManager.createQuery(
+                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.id, m.environment.name) " +
+                        "from MessageEntity m where m.activityId like :activityId",
+                ActivityDTO.class
+        );
+
+        return typedQuery.setParameter("activityId", "%" + activityId + "%").getResultList();
+    }
+
+    @Override
     public Optional<ActivityDTO> findActivityById(String activityId) {
 
         TypedQuery<ActivityDTO> query = entityManager.createQuery(
-                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.name) from MessageEntity m where m.activityId = :activityId",
+                "select distinct new com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO(m.activityId, m.environment.id, m.environment.name) " +
+                        "from MessageEntity m where m.activityId = :activityId",
                 ActivityDTO.class
         );
 

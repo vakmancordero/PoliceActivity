@@ -1,5 +1,6 @@
 package com.bsdenterprise.qbits.policeactivity.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,25 @@ import com.bsdenterprise.qbits.policeactivity.persistence.environment.Environmen
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EnvironmentService extends BaseService<EnvironmentRepository, EnvironmentEntity> {
+
+    public List<EnvironmentOutDTO> findByQueryContaining(String query) {
+
+        List<EnvironmentOutDTO> moduleList = new ArrayList<>();
+
+        if (StringUtils.isNumeric(query))
+            this.repository.findById(Long.parseLong(query)).ifPresent(
+                    m -> moduleList.add(convertUtils.convert(m, EnvironmentOutDTO.class)));
+        else
+            moduleList.addAll(convertUtils.convert(this.repository.findByNameContaining(query), EnvironmentOutDTO.class));
+
+        return moduleList;
+    }
 
     public EnvironmentOutDTO createEnvironment(EnvironmentInDTO environmentInDTO) throws Exception {
 

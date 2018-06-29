@@ -31,6 +31,11 @@ public class EnvironmentController {
         return ResponseEntity.ok(this.environmentService.findAll(EnvironmentOutDTO.class));
     }
 
+    @GetMapping("/find")
+    public @ResponseBody ResponseEntity<List<EnvironmentOutDTO>> findByNameContaining(@RequestParam("query") String query) {
+        return ResponseEntity.ok(this.environmentService.findByQueryContaining(query));
+    }
+
     @GetMapping("/{id}")
     public @ResponseBody ResponseEntity findById(@PathVariable("id") long id) {
 

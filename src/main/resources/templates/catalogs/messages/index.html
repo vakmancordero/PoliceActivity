@@ -32,20 +32,32 @@
                         <form>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="activityId">Activity Id</label>
-                                    <input type="text" class="form-control" id="activityId" placeholder="Activity">
+                                    <label for="activity">Activity</label>
+                                    <div id="activity-ac">
+                                        <input type="text" class="form-control typeahead tt-query" autocomplete="off" spellcheck="false"
+                                               id="activity" placeholder="Enter an activity name...">
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="environment">Environment</label>
-                                    <input type="text" class="form-control" id="environment" placeholder="Environment">
+                                    <div id="environment-ac">
+                                        <input type="text" class="form-control typeahead tt-query" autocomplete="off" spellcheck="false"
+                                               id="environment" placeholder="Enter an environment name...">
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" placeholder="Status">
+                                    <div id="status-ac">
+                                        <input type="text" class="form-control typeahead tt-query" autocomplete="off" spellcheck="false"
+                                               id="status" placeholder="Enter a status name...">
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="module">Module</label>
-                                    <input type="number" class="form-control" id="module" placeholder="Module">
+                                    <div id="module-ac">
+                                        <input type="text" class="form-control typeahead tt-query" autocomplete="off" spellcheck="false"
+                                               id="module" placeholder="Enter a module name...">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
@@ -54,7 +66,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-10">
                     <div class="row">
                         <table id="activitiesTable" class="table table-bordered" style="width:100%">
                             <thead>
@@ -82,6 +94,8 @@
 
     <th:block th:replace="fragments/datatables :: scripts"></th:block>
 
+    <script type="text/javascript" th:src="@{/lib/typeahead/typeahead.bundle.min.js}"></script>
+
     <script th:inline="javascript">
 
         function reloadTable() {
@@ -98,10 +112,23 @@
                     "type": "GET",
                     "dataSrc": "",
                     "data": function (data) {
-                        data.activityId = $('#activityId').val();
-                        data.statusId = $('#status').val();
-                        data.environmentId = $('#environment').val();
-                        data.moduleId = $('#module').val();
+
+                        var activity = $('#activity');
+                        if (activity.attr('activityId') == null) activity.val('');
+                        data.activityId = activity.attr('activityId');
+
+                        var status = $('#status');
+                        if (status.attr('statusId') == null) status.val('');
+                        data.statusId = status.attr('statusId');
+
+                        var environment = $('#environment');
+                        if (environment.attr('environmentId') == null) environment.val('');
+                        data.environmentId = environment.attr('environmentId');
+
+                        var module = $('#module');
+                        if (module.attr('moduleId') == null) module.val('');
+                        data.moduleId = module.attr('moduleId');
+
                     }
                 },
                 "columns": [
@@ -183,6 +210,58 @@
 
                 }
 
+            });
+
+            function inputTypeahead(inputId, name, url, display, suggestion) {
+
+                $('#' + inputId + ' .typeahead').typeahead({hint: true, highlight: true, minLength: 1}, {
+                    name: 'modules',
+                    display: display,
+                    source: new Bloodhound({
+                        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        remote: { url: url, wildcard: '%query'}
+                    }),
+                    templates: {
+                        empty: [
+                            '<div class="empty-message">',
+                            'Unable to find any ' + name + ' that match the current query',
+                            '</div>'
+                        ].join('\n'),
+                        suggestion: suggestion
+                    }
+                });
+
+            }
+
+            inputTypeahead('activity-ac', 'activity', '/v1/activity/messages/find/suggestions?activityId=%query', 'activityId', function(data) {
+                return '<p>' + data.activityId + ' : ' + data.environment.name + '</p>'
+            });
+
+            inputTypeahead('module-ac', 'module', '/v1/catalogs/modules/find?query=%query', 'name', function(data) {
+                return '<p>' + data.id + ' : ' + data.name + '</p>'
+            });
+
+            inputTypeahead('environment-ac', 'environment', '/v1/catalogs/environments/find?query=%query', 'name', function(data) {
+                return '<p>' + data.id + ' : ' + data.name + '</p>'
+            });
+
+            inputTypeahead('status-ac', 'status', '/v1/catalogs/status/find?query=%query', 'name', function(data) {
+                return '<p>' + data.id + ' : ' + data.name + '</p>'
+            });
+
+            $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
+                var inputId = ev.target.id;
+                if (inputId === 'activity') {
+                    $('input#' + inputId).attr(inputId + 'Id', suggestion.activityId);
+                } else {
+                    $('input#' + inputId).attr(inputId + 'Id', suggestion.id);
+                }
+            });
+
+            $('.typeahead').bind('typeahead:asyncrequest', function(ev) {
+                var inputId = ev.target.id;
+                $('input#' + inputId).attr(inputId + 'Id', null);
             });
 
         });
