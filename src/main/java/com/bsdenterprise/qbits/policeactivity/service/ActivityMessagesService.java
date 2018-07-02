@@ -3,7 +3,7 @@ package com.bsdenterprise.qbits.policeactivity.service;
 import com.bsdenterprise.qbits.policeactivity.common.service.BaseService;
 import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.activity.ActivityMessages;
-import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessage;
+import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessageDTO;
 import com.bsdenterprise.qbits.policeactivity.enums.Status;
 import com.bsdenterprise.qbits.policeactivity.model.MessageEntity;
 import com.bsdenterprise.qbits.policeactivity.persistence.message.MessageRepository;
@@ -28,7 +28,7 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
 
         repository.findActivities().forEach(activity -> {
             ActivityMessages am = new ActivityMessages(activity, convertUtils.convert(
-                    repository.findMessageDetail(activity.getActivityId()), OutputMessage.class));
+                    repository.findMessageDetail(activity.getActivityId()), OutputMessageDTO.class));
 
             am.getMessages().forEach(m -> Status.findStatusById(m.getStatusId()).ifPresent(st -> m.setStatus(st.name())));
             activityMessages.add(am);
@@ -47,7 +47,7 @@ public class ActivityMessagesService extends BaseService<MessageRepository, Mess
 
         repository.findActivityById(activityId).ifPresent(activity ->
                 activityMessages.add(new ActivityMessages(activity, convertUtils.convert(
-                        repository.findMessageDetail(activityId), OutputMessage.class)
+                        repository.findMessageDetail(activityId), OutputMessageDTO.class)
                 ))
         );
 

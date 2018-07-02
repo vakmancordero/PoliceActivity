@@ -81,7 +81,7 @@ public class MessageRepositoryCustomImpl implements MessageRepositoryCustom {
         List<MessageEntity> messages = entityManager.createQuery(q).setParameter("activity", activity).getResultList();
 
         messageDetail.getMessages().addAll(
-                convertUtils.convert(messages, OutputMessage.class)
+                convertUtils.convert(messages, OutputMessageDTO.class)
         );
 
         return messageDetail;

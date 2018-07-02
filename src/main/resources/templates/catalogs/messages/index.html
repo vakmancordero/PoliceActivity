@@ -173,7 +173,7 @@
 
                     var data = row.data();
 
-                    var tableId = data.activity.activityId.replace(" ", "").toLowerCase();
+                    var tableId = data.activity.activityId.split(' ').join('').toLowerCase();
                     var subTableId = "subtable-" + tableId;
 
                     row.child(format(subTableId)).show();

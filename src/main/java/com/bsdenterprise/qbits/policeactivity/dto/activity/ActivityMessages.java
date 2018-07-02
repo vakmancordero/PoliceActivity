@@ -1,6 +1,6 @@
 package com.bsdenterprise.qbits.policeactivity.dto.activity;
 
-import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessage;
+import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +11,6 @@ import java.util.List;
 public class ActivityMessages {
 
     private ActivityDTO activity;
-    private List<OutputMessage> messages;
+    private List<OutputMessageDTO> messages;
 
 }

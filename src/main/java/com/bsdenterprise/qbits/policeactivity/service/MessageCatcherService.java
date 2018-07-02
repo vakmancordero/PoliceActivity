@@ -5,7 +5,7 @@ import com.bsdenterprise.qbits.policeactivity.common.service.BaseService;
 import com.bsdenterprise.qbits.policeactivity.dto.environment.EnvironmentOutDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.message.InputMessage;
 import com.bsdenterprise.qbits.policeactivity.dto.message.InputMessageDTO;
-import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessage;
+import com.bsdenterprise.qbits.policeactivity.dto.message.OutputMessageDTO;
 import com.bsdenterprise.qbits.policeactivity.dto.module.ModuleOutDTO;
 import com.bsdenterprise.qbits.policeactivity.enums.Status;
 import com.bsdenterprise.qbits.policeactivity.persistence.message.MessageRepository;
@@ -24,7 +24,7 @@ public class MessageCatcherService extends BaseService<MessageRepository, Messag
     private final ModuleService moduleService;
     private final EnvironmentService environmentService;
 
-    public OutputMessage catchMessage(InputMessageDTO inputMessageDTO) throws Exception {
+    public OutputMessageDTO catchMessage(InputMessageDTO inputMessageDTO) throws Exception {
 
         Optional<Status> status = Status.findStatusById(inputMessageDTO.getStatusId());
         if (!status.isPresent()) throw new ValidationException("Status not found");
@@ -35,7 +35,7 @@ public class MessageCatcherService extends BaseService<MessageRepository, Messag
         inputMessage.setModule(moduleService.findById(inputMessageDTO.getModuleId(), ModuleOutDTO.class));
         inputMessage.setEnvironment(environmentService.findById(inputMessageDTO.getEnvironmentId(), EnvironmentOutDTO.class));
 
-        OutputMessage savedMessage = this.save(inputMessage, OutputMessage.class);
+        OutputMessageDTO savedMessage = this.save(inputMessage, OutputMessageDTO.class);
         savedMessage.setStatus(status.get().name());
 
         return savedMessage;
